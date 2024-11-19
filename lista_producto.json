@@ -1,0 +1,51 @@
+[
+    {
+        "id_producto": 6,
+        "nombre": "2",
+        "descripcion": "dsfsd",
+        "id_usuario": 2,
+        "estado": "sd",
+        "precio": 23.0
+    },
+    {
+        "id_producto": 3,
+        "nombre": "computadora",
+        "descripcion": "hp 2024",
+        "id_usuario": 1,
+        "estado": "si",
+        "precio": 34.0
+    },
+    {
+        "id_producto": 3,
+        "nombre": "computadora",
+        "descripcion": "hp 2024",
+        "id_usuario": 1,
+        "estado": "si",
+        "precio": 34.0
+    },
+    {
+        "id_producto": 1,
+        "nombre": "computadora",
+        "descripcion": "hp 2024",
+        "id_usuario": 101,
+        "estado": "si",
+        "precio": 34.0
+    },
+    {
+        "id_producto": 5,
+        "nombre": "computadora",
+        "descripcion": "hp 2024",
+        "id_usuario": 1,
+        "estado": "si",
+        "precio": 34.0
+    },
+    {
+        "id_producto": 8,
+        "nombre": "D",
+        "descripcion": "D",
+        "id_usuario": 1,
+        "estado": "SD",
+        "precio": 23.0,
+        "imagen_url": "https://excel-2win.com/wp-content/uploads/2017/05/Imagen1-41.jpg"
+    }
+]
