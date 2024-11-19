@@ -73,5 +73,14 @@
         "estado": "2",
         "precio": 23.0,
         "imagen_url": "https://i0.wp.com/evilnapsis.com/wp-content/uploads/2024/08/tkinter1.png?resize=346%2C140&ssl=1"
+    },
+    {
+        "id_producto": 10,
+        "nombre": "auto",
+        "descripcion": "gjkdfg",
+        "id_usuario": 22,
+        "estado": "sfkf",
+        "precio": 3.0,
+        "imagen_url": "https://i0.wp.com/evilnapsis.com/wp-content/uploads/2024/08/tkinter1.png?resize=346%2C140&ssl=1"
     }
 ]
