@@ -1,7 +1,5 @@
 import tkinter as tk
 from tkinter import messagebox
-from PIL import Image, ImageTk  # Para manejar imágenes
-import requests  # Para descargar imágenes desde URLs
 import json
 
 # Función para cargar los productos desde el archivo JSON
@@ -63,30 +61,37 @@ def listar_productos():
     for producto in productos:
         lista_productos.insert(tk.END, f"{producto['id_producto']} - {producto['nombre']} - ${producto['precio']} - {producto['estado']}")
 
-# Función para mostrar la imagen seleccionada
-def mostrar_imagen():
+# Función para agregar un producto al carrito
+def agregar_al_carrito():
     seleccion = lista_productos.curselection()
     if seleccion:
         index = seleccion[0]
         producto = productos[index]
-        url_imagen = producto.get("imagen_url", "")
-        
-        if url_imagen:
-            try:
-                # Descargar y mostrar la imagen
-                response = requests.get(url_imagen, stream=True)
-                response.raise_for_status()
-                imagen = Image.open(response.raw)
-                imagen = imagen.resize((200, 200))  # Redimensionar para ajustar al frame
-                imagen_tk = ImageTk.PhotoImage(imagen)
-                etiqueta_imagen.config(image=imagen_tk)
-                etiqueta_imagen.image = imagen_tk  # Guardar referencia para evitar que sea recolectado por el GC
-            except Exception as e:
-                messagebox.showerror("Error", f"No se pudo cargar la imagen: {e}")
-        else:
-            messagebox.showwarning("Advertencia", "Este producto no tiene URL de imagen.")
+        carrito.append(producto)
+        guardar_carrito(carrito)
+        messagebox.showinfo("Carrito", f"Producto '{producto['nombre']}' agregado al carrito.")
+        listar_carrito()
     else:
-        messagebox.showerror("Error", "Seleccione un producto para ver la imagen.")
+        messagebox.showerror("Error", "Seleccione un producto para agregar al carrito.")
+
+# Función para listar los productos en el carrito
+def listar_carrito():
+    lista_carrito.delete(0, tk.END)
+    for producto in carrito:
+        lista_carrito.insert(tk.END, f"{producto['id_producto']} - {producto['nombre']} - ${producto['precio']}")
+
+# Función para eliminar un producto del carrito
+def eliminar_del_carrito():
+    seleccion = lista_carrito.curselection()
+    if seleccion:
+        index = seleccion[0]
+        producto = carrito[index]
+        carrito.remove(producto)
+        guardar_carrito(carrito)
+        messagebox.showinfo("Carrito", f"Producto '{producto['nombre']}' eliminado del carrito.")
+        listar_carrito()
+    else:
+        messagebox.showerror("Error", "Seleccione un producto para eliminar del carrito.")
 
 # Crear la ventana principal
 ventana = tk.Tk()
@@ -103,9 +108,6 @@ frame_productos.pack(side=tk.LEFT, padx=20, pady=20)
 
 frame_carrito = tk.Frame(ventana)
 frame_carrito.pack(side=tk.RIGHT, padx=20, pady=20)
-
-frame_imagen = tk.Frame(ventana)
-frame_imagen.pack(side=tk.BOTTOM, pady=20)
 
 # Widgets en el frame_productos
 tk.Label(frame_productos, text="Nombre Producto").grid(row=0, column=0, pady=5, sticky="e")
@@ -137,11 +139,16 @@ tk.Button(frame_productos, text="Publicar Producto", command=publicar_producto).
 lista_productos = tk.Listbox(frame_productos, width=50, height=20)
 lista_productos.grid(row=7, column=0, columnspan=2, pady=10)
 
-tk.Button(frame_productos, text="Mostrar Imagen", command=mostrar_imagen).grid(row=8, column=0, columnspan=2, pady=5)
+tk.Button(frame_productos, text="Agregar al Carrito", command=agregar_al_carrito).grid(row=8, column=0, columnspan=2, pady=5)
 
-# Frame para mostrar la imagen
-etiqueta_imagen = tk.Label(frame_imagen, text="Imagen del Producto")
-etiqueta_imagen.pack()
+# Widgets en el frame_carrito
+tk.Label(frame_carrito, text="Carrito de Compras").pack(pady=5)
+
+lista_carrito = tk.Listbox(frame_carrito, width=50, height=20)
+lista_carrito.pack(pady=10)
+
+tk.Button(frame_carrito, text="Listar Carrito", command=listar_carrito).pack(pady=5)
+tk.Button(frame_carrito, text="Eliminar del Carrito", command=eliminar_del_carrito).pack(pady=5)
 
 # Mostrar los productos al inicio
 listar_productos()
