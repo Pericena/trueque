@@ -48,6 +48,15 @@ class ProductWindow(tk.Toplevel):
         self.image_url_entry.pack(pady=5)
         self.image_url_entry.insert(0, product["imagen_url"] if product else "")
 
+        # Botón
+        desc_label = tk.Label(
+            product_card,
+            text=product["descripcion"],
+            font=("Helvetica", 10),
+            wraplength=180,
+            )
+        desc_label.pack(pady=5)
+
         # Vista previa de la imagen
         self.image_preview_label = tk.Label(self, text="Vista previa", font=("Helvetica", 10, "italic"))
         self.image_preview_label.pack(pady=10)
@@ -109,14 +118,14 @@ class ProductWindow(tk.Toplevel):
 
         self.destroy()
 
-class CatalogApp:
+class CatalogApp: #Representa toda la pantalla con los productos
     def __init__(self, root):
         self.root = root
         self.root.title("Catálogo de Productos")
         self.root.geometry("900x700")
         self.products = load_products()
 
-        # Header
+        # Header(Encabezado)
         header_frame = tk.Frame(self.root, bg="#4CAF50", height=50)
         header_frame.pack(fill=tk.X)
 
@@ -124,7 +133,7 @@ class CatalogApp:
         for action in ["Agregar", "Actualizar"]:
             tk.Button(header_frame, text=action, command=self.open_add_window, bg="white", font=("Helvetica", 12)).pack(side=tk.RIGHT, padx=5)
 
-        # Contenedor principal
+        # Contenedor principal (Catalogo de productos)
         self.products_frame = tk.Frame(self.root)
         self.products_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
 

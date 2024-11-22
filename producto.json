@@ -49,5 +49,11 @@
         "descripcion": "hjh",
         "precio": 77.0,
         "imagen_url": "https://bunny-wp-pullzone-g9i8egt6qc.b-cdn.net/wp-content/uploads/2024/05/IMG-20240513-WA0002-696x401.jpg"
+    },
+    {
+        "nombre": "Tortuga",
+        "descripcion": "Verde",
+        "precio": 100.0,
+        "imagen_url": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQbHbNArP_lfPT6QC1_NdV2bJkme-3D03HpOkOq2Fb_-O74D2CO"
     }
 ]

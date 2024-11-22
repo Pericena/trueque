@@ -1,35 +1,58 @@
 import tkinter as tk
 from tkinter import messagebox
 import json
-from product_window import ProductWindow
+from producto import ProductWindow
 from utils import load_products, save_product
 from PIL import Image, ImageTk
 import requests
+import customtkinter as ctk
 from io import BytesIO
 
 
-class CatalogApp:
+class CatalogApp: #Home
     def __init__(self, root):
         self.root = root
         self.root.title("Catálogo de Productos")
-        self.root.geometry("800x600")
+        self.root.geometry("1270x780")
 
         # Productos
         self.products = load_products()
 
         # Cabecera con botones de acción
+        #Tamaño de la cabecera
         self.header_frame = tk.Frame(root, bg="lightgray", height=50)
         self.header_frame.pack(fill="x", pady=5)
 
+        #Botón de Logo
         self.add_button = tk.Button(
-            self.header_frame, text="Agregar", command=self.open_add_window, width=10
+            self.header_frame, text="Logo", command=self.open_add_window, width=10
         )
         self.add_button.pack(side="left", padx=5)
 
+        #Botón del Buscador
         self.update_button = tk.Button(
-            self.header_frame, text="Actualizar", command=self.update_product_list, width=10
+            self.header_frame, text="Buscador", command=self.update_product_list, width=10
         )
         self.update_button.pack(side="left", padx=5)
+        
+        #Botón de Promociones
+        self.add_button = tk.Button(
+            self.header_frame, text="Promociones", command=self.open_add_window, width=10
+        )
+        self.add_button.pack(side="left", padx=5)
+
+        #Botón de Agregar
+        self.update_button = tk.Button(
+            self.header_frame, text="Agregar", command=self.update_product_list, width=10
+        )
+        self.update_button.pack(side="left", padx=5)
+
+        #Botón de Usuario
+        self.add_button = tk.Button(
+            self.header_frame, text="Usuario", command=self.open_add_window, width=10
+        )
+        self.add_button.pack(side="left", padx=5)
+
 
         # Marco para los productos
         self.products_frame = tk.Frame(root)
@@ -77,20 +100,12 @@ class CatalogApp:
             # Precio
             price_label = tk.Label(
                 product_card,
-                text=f"Bs. {product['precio']:.2f}",
+                text=f"TRC {product['precio']:.2f}",
                 font=("Helvetica", 12),
                 fg="red",
             )
             price_label.pack(pady=5)
 
-            # Descripción
-            desc_label = tk.Label(
-                product_card,
-                text=product["descripcion"],
-                font=("Helvetica", 10),
-                wraplength=180,
-            )
-            desc_label.pack(pady=5)
 
     def open_add_window(self):
         """Abrir ventana para agregar un nuevo producto"""
