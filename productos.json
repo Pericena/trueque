@@ -1,86 +1,53 @@
 [
     {
-        "id_producto": 1,
-        "nombre": "computadora",
-        "descripcion": "hp 2024",
-        "id_usuario": 101,
-        "estado": "si",
-        "precio": 34.0
-    },
-    {
-        "id_producto": 2,
-        "nombre": "Producto 2",
-        "descripcion": "Descripci\u00c3\u00b3n del Producto 2",
-        "id_usuario": 102,
-        "estado": "en trueque",
-        "precio": 20
-    },
-    {
-        "id_producto": 3,
-        "nombre": "computadora",
-        "descripcion": "hp 2024",
-        "id_usuario": 1,
-        "estado": "si",
-        "precio": 34.0
-    },
-    {
-        "id_producto": 4,
-        "nombre": "computadora",
-        "descripcion": "hp 2024",
-        "id_usuario": 1,
-        "estado": "si",
-        "precio": 34.0
-    },
-    {
         "id_producto": 5,
-        "nombre": "computadora",
-        "descripcion": "hp 2024",
+        "nombre": "Laptop Dell XPS 13",
+        "descripcion": "Ultrabook de 13 pulgadas con procesador Intel Core i7 y 16GB de RAM.",
         "id_usuario": 1,
-        "estado": "si",
-        "precio": 34.0
+        "estado": "Disponible",
+        "precio": 1500.0,
+        "imagen_url": "https://bunny-wp-pullzone-g9i8egt6qc.b-cdn.net/wp-content/uploads/2024/05/IMG-20240513-WA0002-696x401.jpg"
     },
     {
         "id_producto": 6,
-        "nombre": "2",
-        "descripcion": "dsfsd",
+        "nombre": "HP Pavilion",
+        "descripcion": "Portatil para gaming con tarjeta grafica NVIDIA GTX 1650 y 8GB de RAM.",
         "id_usuario": 2,
-        "estado": "sd",
-        "precio": 23.0
+        "estado": "Disponible",
+        "precio": 1200.0,
+        "imagen_url": "https://bunny-wp-pullzone-g9i8egt6qc.b-cdn.net/wp-content/uploads/2024/05/IMG-20240513-WA0002-696x401.jpg"
     },
     {
         "id_producto": 7,
-        "nombre": "D",
-        "descripcion": "D",
-        "id_usuario": 1,
-        "estado": "SD",
-        "precio": 23.0,
-        "imagen_url": "https://excel-2win.com/wp-content/uploads/2017/05/Imagen1-41.jpg"
-    },
-    {
-        "id_producto": 8,
-        "nombre": "D",
-        "descripcion": "D",
-        "id_usuario": 1,
-        "estado": "SD",
-        "precio": 23.0,
-        "imagen_url": "https://excel-2win.com/wp-content/uploads/2017/05/Imagen1-41.jpg"
+        "nombre": "MacBook",
+        "descripcion": "Portatil ligero de Apple con chip M2 y 256GB de almacenamiento SSD.",
+        "id_usuario": 3,
+        "estado": "Disponible",
+        "precio": 1300.0,
+        "imagen_url": "https://bunny-wp-pullzone-g9i8egt6qc.b-cdn.net/wp-content/uploads/2024/05/IMG-20240513-WA0002-696x401.jpg"
     },
     {
         "id_producto": 9,
-        "nombre": "23",
-        "descripcion": "32",
-        "id_usuario": 23,
-        "estado": "2",
-        "precio": 23.0,
-        "imagen_url": "https://i0.wp.com/evilnapsis.com/wp-content/uploads/2024/08/tkinter1.png?resize=346%2C140&ssl=1"
+        "nombre": "Lenovo ThinkPad",
+        "descripcion": "Portatil empresarial con diseno premium, 14 pulgadas y 512GB SSD.",
+        "id_usuario": 5,
+        "estado": "Disponible",
+        "precio": 1400.0,
+        "imagen_url": "https://1.bp.blogspot.com/-QfyibJf5F8o/UUIieVj8gRI/AAAAAAAAIpw/w7lyrlZ9B0Y/s1600/KaliLinux-Most-Advanced-Pen-Testing-Distribution.jpg"
     },
     {
         "id_producto": 10,
-        "nombre": "auto",
-        "descripcion": "gjkdfg",
-        "id_usuario": 22,
-        "estado": "sfkf",
-        "precio": 3.0,
-        "imagen_url": "https://i0.wp.com/evilnapsis.com/wp-content/uploads/2024/08/tkinter1.png?resize=346%2C140&ssl=1"
+        "nombre": "Acer Predator",
+        "descripcion": "Portatil para gaming con pantalla de 15.6 pulgadas y graficos RTX 3060.",
+        "id_usuario": 6,
+        "estado": "Disponible",
+        "precio": 1700.0,
+        "imagen_url": "https://1.bp.blogspot.com/-QfyibJf5F8o/UUIieVj8gRI/AAAAAAAAIpw/w7lyrlZ9B0Y/s1600/KaliLinux-Most-Advanced-Pen-Testing-Distribution.jpg"
+    },
+    {
+        "nombre": "jkh",
+        "descripcion": "hjh",
+        "precio": 77.0,
+        "imagen_url": "https://bunny-wp-pullzone-g9i8egt6qc.b-cdn.net/wp-content/uploads/2024/05/IMG-20240513-WA0002-696x401.jpg"
     }
 ]

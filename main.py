@@ -1,157 +1,114 @@
 import tkinter as tk
 from tkinter import messagebox
 import json
+from product_window import ProductWindow
+from utils import load_products, save_product
+from PIL import Image, ImageTk
+import requests
+from io import BytesIO
 
-# Función para cargar los productos desde el archivo JSON
-def cargar_productos():
-    try:
-        with open("productos.json", "r") as archivo:
-            productos = json.load(archivo)
-    except FileNotFoundError:
-        productos = []
-    return productos
 
-# Función para cargar el carrito desde el archivo JSON
-def cargar_carrito():
-    try:
-        with open("lista_producto.json", "r") as archivo:
-            carrito = json.load(archivo)
-    except FileNotFoundError:
-        carrito = []
-    return carrito
+class CatalogApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Catálogo de Productos")
+        self.root.geometry("800x600")
 
-# Función para guardar los productos en el archivo JSON
-def guardar_productos(productos):
-    with open("productos.json", "w") as archivo:
-        json.dump(productos, archivo, indent=4)
+        # Productos
+        self.products = load_products()
 
-# Función para guardar el carrito en el archivo JSON
-def guardar_carrito(carrito):
-    with open("lista_producto.json", "w") as archivo:
-        json.dump(carrito, archivo, indent=4)
+        # Cabecera con botones de acción
+        self.header_frame = tk.Frame(root, bg="lightgray", height=50)
+        self.header_frame.pack(fill="x", pady=5)
 
-# Función para publicar un producto nuevo
-def publicar_producto():
-    id_producto = len(productos) + 1  # Genera un ID único para el nuevo producto
-    nombre = entry_nombre.get()
-    descripcion = entry_descripcion.get()
-    id_usuario = entry_usuario.get()
-    estado = entry_estado.get()
-    precio = float(entry_precio.get())
-    imagen_url = entry_imagen.get()
-    
-    nuevo_producto = {
-        "id_producto": id_producto,
-        "nombre": nombre,
-        "descripcion": descripcion,
-        "id_usuario": int(id_usuario),
-        "estado": estado,
-        "precio": precio,
-        "imagen_url": imagen_url
-    }
-    
-    productos.append(nuevo_producto)
-    guardar_productos(productos)
-    messagebox.showinfo("Producto Publicado", f"Producto '{nombre}' publicado con éxito.")
-    listar_productos()
+        self.add_button = tk.Button(
+            self.header_frame, text="Agregar", command=self.open_add_window, width=10
+        )
+        self.add_button.pack(side="left", padx=5)
 
-# Función para listar todos los productos
-def listar_productos():
-    lista_productos.delete(0, tk.END)
-    for producto in productos:
-        lista_productos.insert(tk.END, f"{producto['id_producto']} - {producto['nombre']} - ${producto['precio']} - {producto['estado']}")
+        self.update_button = tk.Button(
+            self.header_frame, text="Actualizar", command=self.update_product_list, width=10
+        )
+        self.update_button.pack(side="left", padx=5)
 
-# Función para agregar un producto al carrito
-def agregar_al_carrito():
-    seleccion = lista_productos.curselection()
-    if seleccion:
-        index = seleccion[0]
-        producto = productos[index]
-        carrito.append(producto)
-        guardar_carrito(carrito)
-        messagebox.showinfo("Carrito", f"Producto '{producto['nombre']}' agregado al carrito.")
-        listar_carrito()
-    else:
-        messagebox.showerror("Error", "Seleccione un producto para agregar al carrito.")
+        # Marco para los productos
+        self.products_frame = tk.Frame(root)
+        self.products_frame.pack(pady=10, expand=True, fill="both")
 
-# Función para listar los productos en el carrito
-def listar_carrito():
-    lista_carrito.delete(0, tk.END)
-    for producto in carrito:
-        lista_carrito.insert(tk.END, f"{producto['id_producto']} - {producto['nombre']} - ${producto['precio']}")
+        self.update_product_list()
 
-# Función para eliminar un producto del carrito
-def eliminar_del_carrito():
-    seleccion = lista_carrito.curselection()
-    if seleccion:
-        index = seleccion[0]
-        producto = carrito[index]
-        carrito.remove(producto)
-        guardar_carrito(carrito)
-        messagebox.showinfo("Carrito", f"Producto '{producto['nombre']}' eliminado del carrito.")
-        listar_carrito()
-    else:
-        messagebox.showerror("Error", "Seleccione un producto para eliminar del carrito.")
+    def update_product_list(self):
+        """Actualizar la visualización de productos en estilo "card"."""        
+        for widget in self.products_frame.winfo_children():
+            widget.destroy()  # Limpiar el marco de productos
 
-# Crear la ventana principal
-ventana = tk.Tk()
-ventana.title("Marketplace Básico")
-ventana.geometry("1200x600")
+        for index, product in enumerate(self.products):
+            product_card = tk.Frame(
+                self.products_frame,
+                relief="solid",
+                borderwidth=2,
+                width=200,
+                height=300,
+            )
+            product_card.grid_propagate(False)
+            product_card.grid(row=index // 3, column=index % 3, padx=10, pady=10)
 
-# Cargar productos y carrito desde JSON
-productos = cargar_productos()
-carrito = cargar_carrito()
+            # Imagen del producto
+            image_label = tk.Label(product_card)
+            image_label.pack(pady=5)
 
-# Crear un frame principal para dividir el contenido
-frame_productos = tk.Frame(ventana)
-frame_productos.pack(side=tk.LEFT, padx=20, pady=20)
+            if "imagen_url" in product:
+                try:
+                    response = requests.get(product['imagen_url'], timeout=5)
+                    img = Image.open(BytesIO(response.content))
+                    img.thumbnail((150, 150))
+                    img_tk = ImageTk.PhotoImage(img)
+                    image_label.config(image=img_tk)
+                    image_label.image = img_tk
+                except Exception:
+                    image_label.config(text="Imagen no disponible")
 
-frame_carrito = tk.Frame(ventana)
-frame_carrito.pack(side=tk.RIGHT, padx=20, pady=20)
+            # Nombre
+            name_label = tk.Label(
+                product_card, text=product["nombre"], font=("Helvetica", 14, "bold")
+            )
+            name_label.pack(pady=5)
 
-# Widgets en el frame_productos
-tk.Label(frame_productos, text="Nombre Producto").grid(row=0, column=0, pady=5, sticky="e")
-entry_nombre = tk.Entry(frame_productos)
-entry_nombre.grid(row=0, column=1, pady=5)
+            # Precio
+            price_label = tk.Label(
+                product_card,
+                text=f"Bs. {product['precio']:.2f}",
+                font=("Helvetica", 12),
+                fg="red",
+            )
+            price_label.pack(pady=5)
 
-tk.Label(frame_productos, text="Descripción Producto").grid(row=1, column=0, pady=5, sticky="e")
-entry_descripcion = tk.Entry(frame_productos)
-entry_descripcion.grid(row=1, column=1, pady=5)
+            # Descripción
+            desc_label = tk.Label(
+                product_card,
+                text=product["descripcion"],
+                font=("Helvetica", 10),
+                wraplength=180,
+            )
+            desc_label.pack(pady=5)
 
-tk.Label(frame_productos, text="ID Usuario").grid(row=2, column=0, pady=5, sticky="e")
-entry_usuario = tk.Entry(frame_productos)
-entry_usuario.grid(row=2, column=1, pady=5)
+    def open_add_window(self):
+        """Abrir ventana para agregar un nuevo producto"""
+        add_window = ProductWindow(self.root, self)
+        add_window.grab_set()
 
-tk.Label(frame_productos, text="Estado (disponible, en trueque)").grid(row=3, column=0, pady=5, sticky="e")
-entry_estado = tk.Entry(frame_productos)
-entry_estado.grid(row=3, column=1, pady=5)
+    def add_product(self, product):
+        """Agregar producto y actualizar lista"""
+        self.products.append(product)
+        save_product(self.products)
+        self.update_product_list()
 
-tk.Label(frame_productos, text="Precio Producto").grid(row=4, column=0, pady=5, sticky="e")
-entry_precio = tk.Entry(frame_productos)
-entry_precio.grid(row=4, column=1, pady=5)
 
-tk.Label(frame_productos, text="URL Imagen").grid(row=5, column=0, pady=5, sticky="e")
-entry_imagen = tk.Entry(frame_productos)
-entry_imagen.grid(row=5, column=1, pady=5)
+def run_app():
+    root = tk.Tk()
+    app = CatalogApp(root)
+    root.mainloop()
 
-tk.Button(frame_productos, text="Publicar Producto", command=publicar_producto).grid(row=6, column=0, columnspan=2, pady=5)
 
-lista_productos = tk.Listbox(frame_productos, width=50, height=20)
-lista_productos.grid(row=7, column=0, columnspan=2, pady=10)
-
-tk.Button(frame_productos, text="Agregar al Carrito", command=agregar_al_carrito).grid(row=8, column=0, columnspan=2, pady=5)
-
-# Widgets en el frame_carrito
-tk.Label(frame_carrito, text="Carrito de Compras").pack(pady=5)
-
-lista_carrito = tk.Listbox(frame_carrito, width=50, height=20)
-lista_carrito.pack(pady=10)
-
-tk.Button(frame_carrito, text="Listar Carrito", command=listar_carrito).pack(pady=5)
-tk.Button(frame_carrito, text="Eliminar del Carrito", command=eliminar_del_carrito).pack(pady=5)
-
-# Mostrar los productos al inicio
-listar_productos()
-
-# Iniciar la interfaz
-ventana.mainloop()
+if __name__ == "__main__":
+    run_app()

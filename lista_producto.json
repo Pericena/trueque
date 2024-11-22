@@ -1,13 +1,5 @@
 [
     {
-        "id_producto": 6,
-        "nombre": "2",
-        "descripcion": "dsfsd",
-        "id_usuario": 2,
-        "estado": "sd",
-        "precio": 23.0
-    },
-    {
         "id_producto": 1,
         "nombre": "computadora",
         "descripcion": "hp 2024",
